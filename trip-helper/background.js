@@ -24,56 +24,63 @@ const PRIORITY_PARAMS = [
 function isTargetUrl(url) {
   const urlObj = new URL(url);
   const searchParams = new URLSearchParams(urlObj.search);
-  
+
   // 首先检查是否是目标网站
-  const isTargetSite = (
+  const isTargetSite =
     urlObj.hostname.includes("trip.com") ||
-    urlObj.hostname.includes("ctrip.com")
-  );
+    urlObj.hostname.includes("ctrip.com");
 
   if (!isTargetSite) {
     return { needProcess: false };
   }
 
   // 检查是否是详情页
-  const isDetailPage = urlObj.pathname.includes('detail');
+  const isDetailPage = urlObj.pathname.includes("detail");
   if (!isDetailPage) {
     return { needProcess: false };
   }
 
   // 检查是否是vacation-rentals详情页
-  const isVacationRentalsDetail = urlObj.pathname.includes('vacation-rentals/detail');
-  
+  const isVacationRentalsDetail = urlObj.pathname.includes(
+    "vacation-rentals/detail"
+  );
+
   // 获取当前URL的所有参数
   const currentParams = Array.from(searchParams.entries());
-  
+
   // 对于vacation-rentals详情页的特殊处理
   if (isVacationRentalsDetail) {
-    const seoParam = currentParams.find(([key, value]) => key === 'seo' && value === '0');
-    
+    const seoParam = currentParams.find(
+      ([key, value]) => key === "seo" && value === "0"
+    );
+
     // 如果没有seo=0参数，需要添加
     if (!seoParam) {
       return { needProcess: true, needSeoParam: true };
     }
-    
+
     // 如果有seo=0但不在第一位，需要重排
-    if (currentParams[0][0] !== 'seo') {
+    if (currentParams[0][0] !== "seo") {
       return { needProcess: true, keepExistingSeo: true };
     }
   }
 
   // 检查其他参数顺序
   let lastPriorityIndex = -1;
-  const startIndex = isVacationRentalsDetail && currentParams[0][0] === 'seo' ? 1 : 0;
-  
+  const startIndex =
+    isVacationRentalsDetail && currentParams[0][0] === "seo" ? 1 : 0;
+
   for (const [key, _] of currentParams.slice(startIndex)) {
     const currentIndex = PRIORITY_PARAMS.indexOf(key);
-    if (currentIndex !== -1) {  // 如果是优先参数
-      if (currentIndex < lastPriorityIndex) {  // 顺序不对
-        return { 
-          needProcess: true, 
-          needSeoParam: isVacationRentalsDetail && !searchParams.get('seo'),
-          keepExistingSeo: isVacationRentalsDetail && searchParams.get('seo') === '0'
+    if (currentIndex !== -1) {
+      // 如果是优先参数
+      if (currentIndex < lastPriorityIndex) {
+        // 顺序不对
+        return {
+          needProcess: true,
+          needSeoParam: isVacationRentalsDetail && !searchParams.get("seo"),
+          keepExistingSeo:
+            isVacationRentalsDetail && searchParams.get("seo") === "0",
         };
       }
       lastPriorityIndex = currentIndex;
@@ -103,13 +110,14 @@ function reorderUrlParams(url, { needSeoParam, keepExistingSeo }) {
 
   paramEntries.forEach(([key, value]) => {
     // 如果是要保留的seo参数，跳过，后面会放在第一位
-    if (keepExistingSeo && key === 'seo' && value === '0') {
+    if (keepExistingSeo && key === "seo" && value === "0") {
       return;
     }
-    
+
     if (PRIORITY_PARAMS.includes(key)) {
       priorityParams.push([key, value]);
-    } else if (key !== 'seo') {  // 排除其他seo参数
+    } else if (key !== "seo") {
+      // 排除其他seo参数
       otherParams.push([key, value]);
     }
   });
@@ -121,12 +129,12 @@ function reorderUrlParams(url, { needSeoParam, keepExistingSeo }) {
 
   // 构建新的URL
   const newSearchParams = new URLSearchParams();
-  
+
   // 处理seo参数
   if (needSeoParam || keepExistingSeo) {
-    newSearchParams.append('seo', '0');
+    newSearchParams.append("seo", "0");
   }
-  
+
   // 然后添加其他参数
   [...priorityParams, ...otherParams].forEach(([key, value]) => {
     newSearchParams.append(key, value);
