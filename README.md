@@ -1,8 +1,6 @@
 # Browser Plugins Collection
 
-这是一个浏览器插件集合项目，包含多个用于提升特定网站使用体验的 Chrome 扩展。每个插件都专注于解决特定网站的特定问题，提供更好的浏览体验。
-
-> 🎯 项目目标：通过专门的浏览器扩展，优化特定网站的用户体验，让网页浏览更加高效和愉悦。
+这是一个浏览器插件集合项目，包含多个用于提升特定网站使用体验的 Chrome 扩展。每个插件都专注于解决特定问题，提供更好的浏览体验。
 
 ## 🔌 插件列表
 
@@ -27,6 +25,17 @@
 
 [查看详细说明](./trip-helper/README.md)
 
+### [Merge Windows](./merge-windows)
+
+提高工作效率的窗口管理工具。
+
+- 🪟 一键合并多个窗口
+- ⌨️ 快捷键支持（Alt+M）
+- 🎯 简化窗口管理
+- ⚡ 即时窗口整理
+
+[查看详细说明](./merge-windows/README.md)
+
 ## 🚀 快速开始
 
 1. 克隆仓库：
@@ -47,6 +56,7 @@ git clone https://github.com/yourusername/browser-plugins.git
 ```
 browser-plugins/
 ├── mdn-focus/          # MDN 文档阅读助手
+├── merge-windows/      # 浏览器窗口管理工具
 ├── trip-helper/        # Trip.com 增强工具
 ├── LICENSE            # MIT 许可证
 └── README.md          # 项目说明文档
@@ -69,3 +79,4 @@ browser-plugins/
 ## 🔗 相关链接
 
 - [Chrome 扩展开发文档](https://developer.chrome.com/docs/extensions/)
+- [Chrome 网上应用店发布指南](https://developer.chrome.com/docs/webstore/publish/)
