@@ -5,12 +5,14 @@ Trip Helper 是一个浏览器扩展程序，用于增强 Trip.com 和 Ctrip.com
 ## ✨ 功能特点
 
 ### URL 参数重排序
+
 - 自动重新排序 URL 参数
 - 重要参数（locale、入住日期等）优先显示
 - 支持多语言版本（Trip.com 和 Ctrip.com）
 - 智能识别页面类型
 
 ### Vacation Rentals 优化
+
 - 自动添加性能优化参数
 - 特殊页面的参数优化处理
 - 提升页面加载速度
@@ -24,6 +26,7 @@ Trip Helper 是一个浏览器扩展程序，用于增强 Trip.com 和 Ctrip.com
 5. 选择此项目的目录
 
 ### 兼容性
+
 - Chrome 88+
 - Edge 88+
 - 其他基于 Chromium 的浏览器
@@ -31,12 +34,15 @@ Trip Helper 是一个浏览器扩展程序，用于增强 Trip.com 和 Ctrip.com
 ## 📖 使用说明
 
 ### 基本使用
+
 安装后无需额外配置，插件会自动在符合条件的页面上运行。
 
 ### 支持的参数
+
 优先排序的参数包括：
+
 - locale：语言和地区设置
-- h-id：酒店ID
+- h-id：酒店 ID
 - c-in/checkIn：入住日期
 - c-out/checkOut：退房日期
 - c-rooms：房间数量
@@ -44,6 +50,7 @@ Trip Helper 是一个浏览器扩展程序，用于增强 Trip.com 和 Ctrip.com
 - 更多参数见技术文档
 
 ### 常见问题
+
 1. Q: 为什么有些页面不会触发重排序？
    A: 插件只在特定的页面类型（如酒店详情、度假屋详情）下工作。
 
@@ -53,6 +60,7 @@ Trip Helper 是一个浏览器扩展程序，用于增强 Trip.com 和 Ctrip.com
 ## ⚙️ 配置说明
 
 目前插件采用零配置设计，无需手动设置。未来版本可能添加：
+
 - 自定义参数排序规则
 - 页面类型过滤
 - 更多个性化选项
@@ -60,11 +68,13 @@ Trip Helper 是一个浏览器扩展程序，用于增强 Trip.com 和 Ctrip.com
 ## 🔧 技术实现
 
 ### 核心技术
+
 - Chrome Extension Manifest V3
 - URL 参数解析和重组
 - 页面类型识别算法
 
 ### API 使用
+
 - chrome.webNavigation
 - chrome.tabs
 - URL API
@@ -72,11 +82,13 @@ Trip Helper 是一个浏览器扩展程序，用于增强 Trip.com 和 Ctrip.com
 ## 📝 更新日志
 
 ### v1.1.0 (2024-01-20)
+
 - ✨ 新增对 vacation-rentals 详情页的特殊处理
 - 🔄 优化参数排序逻辑
 - 🚀 提升整体性能和稳定性
 
 ### v1.0.0 (2023-12-15)
+
 - 🎉 首次发布
 - ✨ 基础 URL 参数重排序功能
 - 🌐 支持 Trip.com 和 Ctrip.com
@@ -84,16 +96,19 @@ Trip Helper 是一个浏览器扩展程序，用于增强 Trip.com 和 Ctrip.com
 ## 👨‍💻 开发指南
 
 ### 本地开发
+
 1. 克隆仓库
 2. 修改代码
 3. 在 Chrome 扩展管理页面点击"重新加载"进行测试
 
 ### 调试方法
+
 - 使用 Chrome DevTools
 - 查看 Background Service Worker
 - 控制台日志输出
 
 ### 测试
+
 - URL 参数排序测试
 - 页面兼容性测试
 - 性能测试

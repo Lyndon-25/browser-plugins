@@ -30,6 +30,7 @@
 ## 🚀 快速开始
 
 1. 克隆仓库：
+
 ```bash
 git clone https://github.com/yourusername/browser-plugins.git
 ```
