@@ -1,42 +1,21 @@
 # Trip Helper
 
-Trip Helper 是一个浏览器扩展程序，用于增强 Trip.com 和 Ctrip.com 网站的用户体验。
+Trip Helper 是一个浏览器扩展程序，用于增强 Trip.com 和 Ctrip.com 网站的用户体验。通过智能的 URL 参数重排序功能，让链接更易读、更易分享，同时提供更好的页面性能。
 
-## 版本
-
-当前版本：1.1.0
-
-## 功能
+## ✨ 功能特点
 
 ### URL 参数重排序
+- 自动重新排序 URL 参数
+- 重要参数（locale、入住日期等）优先显示
+- 支持多语言版本（Trip.com 和 Ctrip.com）
+- 智能识别页面类型
 
-当访问 Trip.com 或 Ctrip.com 的详情页面时，插件会自动重新排序 URL 参数，使重要参数（如 locale、入住日期、退房日期等）排在前面，提高 URL 的可读性。
+### Vacation Rentals 优化
+- 自动添加性能优化参数
+- 特殊页面的参数优化处理
+- 提升页面加载速度
 
-优先排序的参数包括：
-
-- locale
-- h-id
-- c-in
-- c-out
-- c-rooms
-- d-city
-- d-type
-- source-tag
-- d-time
-- hotelId
-- checkIn
-- checkOut
-- adult
-- children
-
-### Vacation Rentals 页面优化
-
-对于 vacation-rentals 详情页面，插件会：
-
-- 自动添加并确保 `seo=0` 参数位于 URL 参数的首位
-- 优化其他参数的排序，提升页面性能和用户体验
-
-## 安装说明
+## 🚀 安装方法
 
 1. 下载或克隆此仓库到本地
 2. 打开 Chrome 浏览器，进入扩展程序页面 (chrome://extensions/)
@@ -44,18 +23,77 @@ Trip Helper 是一个浏览器扩展程序，用于增强 Trip.com 和 Ctrip.com
 4. 点击"加载已解压的扩展程序"
 5. 选择此项目的目录
 
-## 使用方法
+### 兼容性
+- Chrome 88+
+- Edge 88+
+- 其他基于 Chromium 的浏览器
 
-安装后无需额外配置，插件会自动在符合条件的页面上运行。当你访问 Trip.com 或 Ctrip.com 的详情页面时，URL 参数会自动重新排序。
+## 📖 使用说明
 
-## 更新日志
+### 基本使用
+安装后无需额外配置，插件会自动在符合条件的页面上运行。
 
-### 1.1.0
+### 支持的参数
+优先排序的参数包括：
+- locale：语言和地区设置
+- h-id：酒店ID
+- c-in/checkIn：入住日期
+- c-out/checkOut：退房日期
+- c-rooms：房间数量
+- d-city：目的地城市
+- 更多参数见技术文档
 
-- 新增对 vacation-rentals 详情页的特殊处理
-- 优化参数排序逻辑
-- 提升整体性能和稳定性
+### 常见问题
+1. Q: 为什么有些页面不会触发重排序？
+   A: 插件只在特定的页面类型（如酒店详情、度假屋详情）下工作。
 
-## 后续功能
+2. Q: 重排序会影响页面功能吗？
+   A: 不会。插件只调整 URL 参数顺序，不会改变参数值或页面功能。
 
-更多功能正在开发中，敬请期待！
+## ⚙️ 配置说明
+
+目前插件采用零配置设计，无需手动设置。未来版本可能添加：
+- 自定义参数排序规则
+- 页面类型过滤
+- 更多个性化选项
+
+## 🔧 技术实现
+
+### 核心技术
+- Chrome Extension Manifest V3
+- URL 参数解析和重组
+- 页面类型识别算法
+
+### API 使用
+- chrome.webNavigation
+- chrome.tabs
+- URL API
+
+## 📝 更新日志
+
+### v1.1.0 (2024-01-20)
+- ✨ 新增对 vacation-rentals 详情页的特殊处理
+- 🔄 优化参数排序逻辑
+- 🚀 提升整体性能和稳定性
+
+### v1.0.0 (2023-12-15)
+- 🎉 首次发布
+- ✨ 基础 URL 参数重排序功能
+- 🌐 支持 Trip.com 和 Ctrip.com
+
+## 👨‍💻 开发指南
+
+### 本地开发
+1. 克隆仓库
+2. 修改代码
+3. 在 Chrome 扩展管理页面点击"重新加载"进行测试
+
+### 调试方法
+- 使用 Chrome DevTools
+- 查看 Background Service Worker
+- 控制台日志输出
+
+### 测试
+- URL 参数排序测试
+- 页面兼容性测试
+- 性能测试

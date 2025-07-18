@@ -1,0 +1,60 @@
+---
+name: Manifest JSON Field Order
+globs: manifest.json
+alwaysApply: true
+---
+
+## manifest.json 字段排序规则
+
+> 目的：确保所有 Chrome 扩展的 manifest.json 文件保持一致的字段顺序，提高可读性和可维护性。
+
+按以下固定顺序排列字段：
+
+1. 基础信息（置顶）
+
+   - manifest_version
+   - name
+   - version
+   - description
+
+2. 资源定义
+
+   - icons
+
+3. 核心功能
+
+   - background
+
+4. UI 相关
+
+   - action
+   - commands（如果有）
+
+5. 权限相关（置底）
+   - permissions
+   - host_permissions
+
+### 排序原则说明
+
+1. 基础信息优先：插件的身份标识信息，是理解插件的关键
+2. 资源配置其次：静态资源是基础配置，不涉及运行时
+3. 核心功能居中：background 是插件的运行时核心
+4. UI 配置随后：用户交互相关配置
+5. 权限放最后：功能的补充说明，便于安全审查
+
+### 示例
+
+```json
+{
+  "manifest_version": 3,
+  "name": "Extension Name",
+  "version": "1.0.0",
+  "description": "Extension Description",
+  "icons": {},
+  "background": {},
+  "action": {},
+  "commands": {},
+  "permissions": [],
+  "host_permissions": []
+}
+```

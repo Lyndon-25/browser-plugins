@@ -1,8 +1,0 @@
----
-globs: manifest.json
-alwaysApply: false
----
-
-## 排序
-
-帮我整理下 manifest.json 的字段排序，按常见顺序排序
