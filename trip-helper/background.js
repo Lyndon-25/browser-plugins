@@ -1,20 +1,9 @@
-// 优先排序的参数列表
-const PRIORITY_PARAMS = [
-  "locale",
-  "h-id",
-  "c-in",
-  "c-out",
-  "c-rooms",
-  "d-city",
-  "d-type",
-  "source-tag",
-  "d-time",
-  "hotelId",
-  "checkIn",
-  "checkOut",
-  "adult",
-  "children",
-];
+import {
+  PRIORITY_PARAMS,
+  TARGET_DOMAINS,
+  PAGE_TYPES,
+  VACATION_RENTALS_SEO_CONFIG,
+} from "./constants";
 
 /**
  * 检查URL是否需要处理
@@ -27,23 +16,23 @@ function isTargetUrl(url) {
 
   // 首先检查是否是目标网站
   const isTargetSite =
-    urlObj.hostname.includes("trip.com") ||
-    urlObj.hostname.includes("ctrip.com");
+    urlObj.hostname.includes(TARGET_DOMAINS.global) ||
+    urlObj.hostname.includes(TARGET_DOMAINS.china);
 
   if (!isTargetSite) {
     return { needProcess: false };
   }
 
   // 检查是否是详情页
-  const isDetailPage = urlObj.pathname.includes("detail");
+  const isDetailPage = urlObj.pathname.includes(PAGE_TYPES.detail);
   if (!isDetailPage) {
     return { needProcess: false };
   }
 
   // 检查是否是vacation-rentals详情页
-  const isVacationRentalsDetail = urlObj.pathname.includes(
-    "vacation-rentals/detail"
-  );
+  const isVacationRentalsDetail =
+    urlObj.pathname.includes(PAGE_TYPES.vacationRentals) &&
+    urlObj.pathname.includes(PAGE_TYPES.detail);
 
   // 获取当前URL的所有参数
   const currentParams = Array.from(searchParams.entries());
@@ -51,7 +40,9 @@ function isTargetUrl(url) {
   // 对于vacation-rentals详情页的特殊处理
   if (isVacationRentalsDetail) {
     const seoParam = currentParams.find(
-      ([key, value]) => key === "seo" && value === "0"
+      ([key, value]) =>
+        key === VACATION_RENTALS_SEO_CONFIG.param &&
+        value === VACATION_RENTALS_SEO_CONFIG.value
     );
 
     // 如果没有seo=0参数，需要添加
@@ -60,7 +51,7 @@ function isTargetUrl(url) {
     }
 
     // 如果有seo=0但不在第一位，需要重排
-    if (currentParams[0][0] !== "seo") {
+    if (currentParams[0][0] !== VACATION_RENTALS_SEO_CONFIG.param) {
       return { needProcess: true, keepExistingSeo: true };
     }
   }
@@ -68,7 +59,10 @@ function isTargetUrl(url) {
   // 检查其他参数顺序
   let lastPriorityIndex = -1;
   const startIndex =
-    isVacationRentalsDetail && currentParams[0][0] === "seo" ? 1 : 0;
+    isVacationRentalsDetail &&
+    currentParams[0][0] === VACATION_RENTALS_SEO_CONFIG.param
+      ? 1
+      : 0;
 
   for (const [key, _] of currentParams.slice(startIndex)) {
     const currentIndex = PRIORITY_PARAMS.indexOf(key);
@@ -78,9 +72,13 @@ function isTargetUrl(url) {
         // 顺序不对
         return {
           needProcess: true,
-          needSeoParam: isVacationRentalsDetail && !searchParams.get("seo"),
+          needSeoParam:
+            isVacationRentalsDetail &&
+            !searchParams.get(VACATION_RENTALS_SEO_CONFIG.param),
           keepExistingSeo:
-            isVacationRentalsDetail && searchParams.get("seo") === "0",
+            isVacationRentalsDetail &&
+            searchParams.get(VACATION_RENTALS_SEO_CONFIG.param) ===
+              VACATION_RENTALS_SEO_CONFIG.value,
         };
       }
       lastPriorityIndex = currentIndex;
@@ -110,13 +108,17 @@ function reorderUrlParams(url, { needSeoParam, keepExistingSeo }) {
 
   paramEntries.forEach(([key, value]) => {
     // 如果是要保留的seo参数，跳过，后面会放在第一位
-    if (keepExistingSeo && key === "seo" && value === "0") {
+    if (
+      keepExistingSeo &&
+      key === VACATION_RENTALS_SEO_CONFIG.param &&
+      value === VACATION_RENTALS_SEO_CONFIG.value
+    ) {
       return;
     }
 
     if (PRIORITY_PARAMS.includes(key)) {
       priorityParams.push([key, value]);
-    } else if (key !== "seo") {
+    } else if (key !== VACATION_RENTALS_SEO_CONFIG.param) {
       // 排除其他seo参数
       otherParams.push([key, value]);
     }
@@ -132,7 +134,10 @@ function reorderUrlParams(url, { needSeoParam, keepExistingSeo }) {
 
   // 处理seo参数
   if (needSeoParam || keepExistingSeo) {
-    newSearchParams.append("seo", "0");
+    newSearchParams.append(
+      VACATION_RENTALS_SEO_CONFIG.param,
+      VACATION_RENTALS_SEO_CONFIG.value
+    );
   }
 
   // 然后添加其他参数
